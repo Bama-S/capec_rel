@@ -109,4 +109,4 @@ if st.button("🔍 Analyze Node"):
 
 st.markdown("---")
 st.write("This tool provides deep graph analysis and visual context for CAPEC nodes based on their relationships.")
-st.wrote("From Bama - as a part of MIRA-Security")
+st.write("From Bama - as a part of MIRA-Security")
