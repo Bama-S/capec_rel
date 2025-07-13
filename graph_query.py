@@ -67,7 +67,7 @@ def get_leaves():
     return [n for n in G.nodes if G.out_degree(n) == 0]
 
 # Streamlit GUI
-st.title("📊 CAPEC Attack Graph Explorer with Query Support")
+st.title("📊 CAPEC ID Analysis")
 
 node = st.number_input("Enter Node ID to Explore", min_value=0, step=1)
 
@@ -109,3 +109,4 @@ if st.button("🔍 Analyze Node"):
 
 st.markdown("---")
 st.write("This tool provides deep graph analysis and visual context for CAPEC nodes based on their relationships.")
+st.wrote("From Bama - as a part of MIRA-Security")
