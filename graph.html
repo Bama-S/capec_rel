@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 700px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": 16, "label": "16", "shape": "dot", "size": 20, "title": "CAPEC-16"}, {"color": "#97c2fc", "id": 533, "label": "533", "shape": "dot", "size": 20, "title": "CAPEC-533"}, {"color": "#97c2fc", "id": 543, "label": "543", "shape": "dot", "size": 20, "title": "CAPEC-543"}, {"color": "#97c2fc", "id": 544, "label": "544", "shape": "dot", "size": 20, "title": "CAPEC-544"}, {"color": "#97c2fc", "id": 33, "label": "33", "shape": "dot", "size": 20, "title": "CAPEC-33"}, {"color": "#97c2fc", "id": 34, "label": "34", "shape": "dot", "size": 20, "title": "CAPEC-34"}, {"color": "#97c2fc", "id": 545, "label": "545", "shape": "dot", "size": 20, "title": "CAPEC-545"}, {"color": "#97c2fc", "id": 546, "label": "546", "shape": "dot", "size": 20, "title": "CAPEC-546"}, {"color": "#97c2fc", "id": 38, "label": "38", "shape": "dot", "size": 20, "title": "CAPEC-38"}, {"color": "#97c2fc", "id": 561, "label": "561", "shape": "dot", "size": 20, "title": "CAPEC-561"}, {"color": "#97c2fc", "id": 49, "label": "49", "shape": "dot", "size": 20, "title": "CAPEC-49"}, {"color": "#97c2fc", "id": 50, "label": "50", "shape": "dot", "size": 20, "title": "CAPEC-50"}, {"color": "#97c2fc", "id": 565, "label": "565", "shape": "dot", "size": 20, "title": "CAPEC-565"}, {"color": "#97c2fc", "id": 54, "label": "54", "shape": "dot", "size": 20, "title": "CAPEC-54"}, {"color": "#97c2fc", "id": 55, "label": "55", "shape": "dot", "size": 20, "title": "CAPEC-55"}, {"color": "#97c2fc", "id": 568, "label": "568", "shape": "dot", "size": 20, "title": "CAPEC-568"}, {"color": "#97c2fc", "id": 569, "label": "569", "shape": "dot", "size": 20, "title": "CAPEC-569"}, {"color": "#97c2fc", "id": 70, "label": "70", "shape": "dot", "size": 20, "title": "CAPEC-70"}, {"color": "#97c2fc", "id": 598, "label": "598", "shape": "dot", "size": 20, "title": "CAPEC-598"}, {"color": "#97c2fc", "id": 95, "label": "95", "shape": "dot", "size": 20, "title": "CAPEC-95"}, {"color": "#97c2fc", "id": 98, "label": "98", "shape": "dot", "size": 20, "title": "CAPEC-98"}, {"color": "#97c2fc", "id": 611, "label": "611", "shape": "dot", "size": 20, "title": "CAPEC-611"}, {"color": "#97c2fc", "id": 614, "label": "614", "shape": "dot", "size": 20, "title": "CAPEC-614"}, {"color": "#97c2fc", "id": 615, "label": "615", "shape": "dot", "size": 20, "title": "CAPEC-615"}, {"color": "#97c2fc", "id": 616, "label": "616", "shape": "dot", "size": 20, "title": "CAPEC-616"}, {"color": "#97c2fc", "id": 617, "label": "617", "shape": "dot", "size": 20, "title": "CAPEC-617"}, {"color": "#97c2fc", "id": 105, "label": "105", "shape": "dot", "size": 20, "title": "CAPEC-105"}, {"color": "#97c2fc", "id": 116, "label": "116", "shape": "dot", "size": 20, "title": "CAPEC-116"}, {"color": "#97c2fc", "id": 630, "label": "630", "shape": "dot", "size": 20, "title": "CAPEC-630"}, {"color": "#97c2fc", "id": 631, "label": "631", "shape": "dot", "size": 20, "title": "CAPEC-631"}, {"color": "#97c2fc", "id": 632, "label": "632", "shape": "dot", "size": 20, "title": "CAPEC-632"}, {"color": "#97c2fc", "id": 633, "label": "633", "shape": "dot", "size": 20, "title": "CAPEC-633"}, {"color": "#97c2fc", "id": 634, "label": "634", "shape": "dot", "size": 20, "title": "CAPEC-634"}, {"color": "#97c2fc", "id": 637, "label": "637", "shape": "dot", "size": 20, "title": "CAPEC-637"}, {"color": "#97c2fc", "id": 639, "label": "639", "shape": "dot", "size": 20, "title": "CAPEC-639"}, {"color": "#97c2fc", "id": 127, "label": "127", "shape": "dot", "size": 20, "title": "CAPEC-127"}, {"color": "#97c2fc", "id": 641, "label": "641", "shape": "dot", "size": 20, "title": "CAPEC-641"}, {"color": "#97c2fc", "id": 643, "label": "643", "shape": "dot", "size": 20, "title": "CAPEC-643"}, {"color": "#97c2fc", "id": 132, "label": "132", "shape": "dot", "size": 20, "title": "CAPEC-132"}, {"color": "#97c2fc", "id": 644, "label": "644", "shape": "dot", "size": 20, "title": "CAPEC-644"}, {"color": "#97c2fc", "id": 647, "label": "647", "shape": "dot", "size": 20, "title": "CAPEC-647"}, {"color": "#97c2fc", "id": 648, "label": "648", "shape": "dot", "size": 20, "title": "CAPEC-648"}, {"color": "#97c2fc", "id": 143, "label": "143", "shape": "dot", "size": 20, "title": "CAPEC-143"}, {"color": "#97c2fc", "id": 656, "label": "656", "shape": "dot", "size": 20, "title": "CAPEC-656"}, {"color": "#97c2fc", "id": 657, "label": "657", "shape": "dot", "size": 20, "title": "CAPEC-657"}, {"color": "#97c2fc", "id": 144, "label": "144", "shape": "dot", "size": 20, "title": "CAPEC-144"}, {"color": "#97c2fc", "id": 149, "label": "149", "shape": "dot", "size": 20, "title": "CAPEC-149"}, {"color": "#97c2fc", "id": 150, "label": "150", "shape": "dot", "size": 20, "title": "CAPEC-150"}, {"color": "#97c2fc", "id": 154, "label": "154", "shape": "dot", "size": 20, "title": "CAPEC-154"}, {"color": "#97c2fc", "id": 667, "label": "667", "shape": "dot", "size": 20, "title": "CAPEC-667"}, {"color": "#97c2fc", "id": 155, "label": "155", "shape": "dot", "size": 20, "title": "CAPEC-155"}, {"color": "#97c2fc", "id": 159, "label": "159", "shape": "dot", "size": 20, "title": "CAPEC-159"}, {"color": "#97c2fc", "id": 163, "label": "163", "shape": "dot", "size": 20, "title": "CAPEC-163"}, {"color": "#97c2fc", "id": 164, "label": "164", "shape": "dot", "size": 20, "title": "CAPEC-164"}, {"color": "#97c2fc", "id": 675, "label": "675", "shape": "dot", "size": 20, "title": "CAPEC-675"}, {"color": "#97c2fc", "id": 691, "label": "691", "shape": "dot", "size": 20, "title": "CAPEC-691"}, {"color": "#97c2fc", "id": 692, "label": "692", "shape": "dot", "size": 20, "title": "CAPEC-692"}, {"color": "#97c2fc", "id": 693, "label": "693", "shape": "dot", "size": 20, "title": "CAPEC-693"}, {"color": "#97c2fc", "id": 695, "label": "695", "shape": "dot", "size": 20, "title": "CAPEC-695"}, {"color": "#97c2fc", "id": 697, "label": "697", "shape": "dot", "size": 20, "title": "CAPEC-697"}, {"color": "#97c2fc", "id": 186, "label": "186", "shape": "dot", "size": 20, "title": "CAPEC-186"}, {"color": "#97c2fc", "id": 187, "label": "187", "shape": "dot", "size": 20, "title": "CAPEC-187"}, {"color": "#97c2fc", "id": 700, "label": "700", "shape": "dot", "size": 20, "title": "CAPEC-700"}, {"color": "#97c2fc", "id": 701, "label": "701", "shape": "dot", "size": 20, "title": "CAPEC-701"}, {"color": "#97c2fc", "id": 194, "label": "194", "shape": "dot", "size": 20, "title": "CAPEC-194"}, {"color": "#97c2fc", "id": 215, "label": "215", "shape": "dot", "size": 20, "title": "CAPEC-215"}, {"color": "#97c2fc", "id": 261, "label": "261", "shape": "dot", "size": 20, "title": "CAPEC-261"}, {"color": "#97c2fc", "id": 270, "label": "270", "shape": "dot", "size": 20, "title": "CAPEC-270"}, {"color": "#97c2fc", "id": 273, "label": "273", "shape": "dot", "size": 20, "title": "CAPEC-273"}, {"color": "#97c2fc", "id": 275, "label": "275", "shape": "dot", "size": 20, "title": "CAPEC-275"}, {"color": "#97c2fc", "id": 383, "label": "383", "shape": "dot", "size": 20, "title": "CAPEC-383"}, {"color": "#97c2fc", "id": 406, "label": "406", "shape": "dot", "size": 20, "title": "CAPEC-406"}, {"color": "#97c2fc", "id": 407, "label": "407", "shape": "dot", "size": 20, "title": "CAPEC-407"}, {"color": "#97c2fc", "id": 412, "label": "412", "shape": "dot", "size": 20, "title": "CAPEC-412"}, {"color": "#97c2fc", "id": 413, "label": "413", "shape": "dot", "size": 20, "title": "CAPEC-413"}, {"color": "#97c2fc", "id": 414, "label": "414", "shape": "dot", "size": 20, "title": "CAPEC-414"}, {"color": "#97c2fc", "id": 415, "label": "415", "shape": "dot", "size": 20, "title": "CAPEC-415"}, {"color": "#97c2fc", "id": 462, "label": "462", "shape": "dot", "size": 20, "title": "CAPEC-462"}, {"color": "#97c2fc", "id": 471, "label": "471", "shape": "dot", "size": 20, "title": "CAPEC-471"}, {"color": "#97c2fc", "id": 498, "label": "498", "shape": "dot", "size": 20, "title": "CAPEC-498"}, {"color": "#97c2fc", "id": 505, "label": "505", "shape": "dot", "size": 20, "title": "CAPEC-505"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": 16, "label": "childof", "to": 49}, {"arrows": "to", "color": "red", "from": 16, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "blue", "from": 533, "label": "childof", "to": 186}, {"arrows": "to", "color": "blue", "from": 543, "label": "childof", "to": 194}, {"arrows": "to", "color": "blue", "from": 544, "label": "childof", "to": 194}, {"arrows": "to", "color": "green", "from": 33, "label": "peerof", "to": 273}, {"arrows": "to", "color": "red", "from": 33, "label": "canprecede", "to": 154}, {"arrows": "to", "color": "green", "from": 34, "label": "peerof", "to": 105}, {"arrows": "to", "color": "red", "from": 34, "label": "canprecede", "to": 154}, {"arrows": "to", "color": "blue", "from": 545, "label": "childof", "to": 116}, {"arrows": "to", "color": "blue", "from": 546, "label": "childof", "to": 545}, {"arrows": "to", "color": "blue", "from": 38, "label": "childof", "to": 159}, {"arrows": "to", "color": "red", "from": 561, "label": "canprecede", "to": 545}, {"arrows": "to", "color": "red", "from": 49, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "red", "from": 50, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "blue", "from": 565, "label": "childof", "to": 49}, {"arrows": "to", "color": "red", "from": 565, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "blue", "from": 54, "label": "childof", "to": 116}, {"arrows": "to", "color": "blue", "from": 55, "label": "childof", "to": 49}, {"arrows": "to", "color": "red", "from": 55, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "blue", "from": 568, "label": "childof", "to": 569}, {"arrows": "to", "color": "red", "from": 568, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "blue", "from": 569, "label": "childof", "to": 116}, {"arrows": "to", "color": "blue", "from": 70, "label": "childof", "to": 49}, {"arrows": "to", "color": "red", "from": 70, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "blue", "from": 598, "label": "childof", "to": 194}, {"arrows": "to", "color": "blue", "from": 95, "label": "childof", "to": 54}, {"arrows": "to", "color": "red", "from": 98, "label": "canprecede", "to": 543}, {"arrows": "to", "color": "red", "from": 98, "label": "canprecede", "to": 611}, {"arrows": "to", "color": "red", "from": 98, "label": "canprecede", "to": 630}, {"arrows": "to", "color": "red", "from": 98, "label": "canprecede", "to": 631}, {"arrows": "to", "color": "red", "from": 98, "label": "canprecede", "to": 632}, {"arrows": "to", "color": "blue", "from": 611, "label": "childof", "to": 616}, {"arrows": "to", "color": "red", "from": 611, "label": "canprecede", "to": 543}, {"arrows": "to", "color": "blue", "from": 614, "label": "childof", "to": 186}, {"arrows": "to", "color": "blue", "from": 615, "label": "childof", "to": 616}, {"arrows": "to", "color": "blue", "from": 616, "label": "childof", "to": 154}, {"arrows": "to", "color": "red", "from": 616, "label": "canprecede", "to": 691}, {"arrows": "to", "color": "blue", "from": 617, "label": "childof", "to": 616}, {"arrows": "to", "color": "green", "from": 105, "label": "peerof", "to": 34}, {"arrows": "to", "color": "red", "from": 105, "label": "canprecede", "to": 154}, {"arrows": "to", "color": "red", "from": 116, "label": "canprecede", "to": 163}, {"arrows": "to", "color": "blue", "from": 630, "label": "childof", "to": 616}, {"arrows": "to", "color": "red", "from": 630, "label": "canprecede", "to": 543}, {"arrows": "to", "color": "blue", "from": 631, "label": "childof", "to": 616}, {"arrows": "to", "color": "red", "from": 631, "label": "canprecede", "to": 543}, {"arrows": "to", "color": "blue", "from": 632, "label": "childof", "to": 616}, {"arrows": "to", "color": "red", "from": 632, "label": "canprecede", "to": 543}, {"arrows": "to", "color": "blue", "from": 633, "label": "childof", "to": 194}, {"arrows": "to", "color": "blue", "from": 634, "label": "childof", "to": 545}, {"arrows": "to", "color": "blue", "from": 637, "label": "childof", "to": 150}, {"arrows": "to", "color": "blue", "from": 639, "label": "childof", "to": 545}, {"arrows": "to", "color": "blue", "from": 127, "label": "childof", "to": 54}, {"arrows": "to", "color": "blue", "from": 641, "label": "childof", "to": 159}, {"arrows": "to", "color": "red", "from": 643, "label": "canprecede", "to": 561}, {"arrows": "to", "color": "red", "from": 643, "label": "canprecede", "to": 545}, {"arrows": "to", "color": "blue", "from": 132, "label": "childof", "to": 159}, {"arrows": "to", "color": "red", "from": 644, "label": "canprecede", "to": 545}, {"arrows": "to", "color": "blue", "from": 647, "label": "childof", "to": 150}, {"arrows": "to", "color": "blue", "from": 648, "label": "childof", "to": 150}, {"arrows": "to", "color": "blue", "from": 143, "label": "childof", "to": 150}, {"arrows": "to", "color": "blue", "from": 656, "label": "childof", "to": 98}, {"arrows": "to", "color": "blue", "from": 657, "label": "childof", "to": 186}, {"arrows": "to", "color": "blue", "from": 144, "label": "childof", "to": 150}, {"arrows": "to", "color": "red", "from": 149, "label": "canprecede", "to": 155}, {"arrows": "to", "color": "blue", "from": 150, "label": "childof", "to": 116}, {"arrows": "to", "color": "blue", "from": 667, "label": "childof", "to": 616}, {"arrows": "to", "color": "blue", "from": 155, "label": "childof", "to": 150}, {"arrows": "to", "color": "blue", "from": 159, "label": "childof", "to": 154}, {"arrows": "to", "color": "blue", "from": 163, "label": "childof", "to": 98}, {"arrows": "to", "color": "blue", "from": 164, "label": "childof", "to": 98}, {"arrows": "to", "color": "blue", "from": 675, "label": "childof", "to": 116}, {"arrows": "to", "color": "green", "from": 691, "label": "peerof", "to": 630}, {"arrows": "to", "color": "blue", "from": 692, "label": "childof", "to": 691}, {"arrows": "to", "color": "blue", "from": 693, "label": "childof", "to": 691}, {"arrows": "to", "color": "blue", "from": 695, "label": "childof", "to": 616}, {"arrows": "to", "color": "blue", "from": 697, "label": "childof", "to": 194}, {"arrows": "to", "color": "gray", "from": 186, "label": "canfollow", "to": 98}, {"arrows": "to", "color": "blue", "from": 187, "label": "childof", "to": 186}, {"arrows": "to", "color": "gray", "from": 700, "label": "canfollow", "to": 70}, {"arrows": "to", "color": "gray", "from": 701, "label": "canfollow", "to": 98}, {"arrows": "to", "color": "red", "from": 194, "label": "canprecede", "to": 657}, {"arrows": "to", "color": "red", "from": 194, "label": "canprecede", "to": 667}, {"arrows": "to", "color": "blue", "from": 215, "label": "childof", "to": 54}, {"arrows": "to", "color": "blue", "from": 261, "label": "childof", "to": 54}, {"arrows": "to", "color": "red", "from": 270, "label": "canprecede", "to": 568}, {"arrows": "to", "color": "green", "from": 273, "label": "peerof", "to": 33}, {"arrows": "to", "color": "red", "from": 273, "label": "canprecede", "to": 154}, {"arrows": "to", "color": "blue", "from": 275, "label": "childof", "to": 194}, {"arrows": "to", "color": "blue", "from": 383, "label": "childof", "to": 407}, {"arrows": "to", "color": "blue", "from": 406, "label": "childof", "to": 150}, {"arrows": "to", "color": "red", "from": 406, "label": "canprecede", "to": 163}, {"arrows": "to", "color": "red", "from": 406, "label": "canprecede", "to": 675}, {"arrows": "to", "color": "red", "from": 407, "label": "canprecede", "to": 163}, {"arrows": "to", "color": "blue", "from": 412, "label": "childof", "to": 407}, {"arrows": "to", "color": "blue", "from": 413, "label": "childof", "to": 407}, {"arrows": "to", "color": "blue", "from": 414, "label": "childof", "to": 407}, {"arrows": "to", "color": "blue", "from": 415, "label": "childof", "to": 407}, {"arrows": "to", "color": "blue", "from": 462, "label": "childof", "to": 54}, {"arrows": "to", "color": "blue", "from": 471, "label": "childof", "to": 159}, {"arrows": "to", "color": "blue", "from": 498, "label": "childof", "to": 545}, {"arrows": "to", "color": "blue", "from": 505, "label": "childof", "to": 616}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"edges": {"color": {"inherit": false}, "smooth": false}, "physics": {"barnesHut": {"gravitationalConstant": -20000}, "minVelocity": 0.75}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

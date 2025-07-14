@@ -67,7 +67,7 @@ def get_leaves():
     return [n for n in G.nodes if G.out_degree(n) == 0]
 
 # Streamlit GUI
-st.title("📊 CAPEC ID Analysis")
+st.title("📊 CAPEC Attack Graph Explorer with Query Support")
 
 node = st.number_input("Enter Node ID to Explore", min_value=0, step=1)
 
@@ -84,7 +84,8 @@ if st.button("🔍 Analyze Node"):
     roots = get_roots()
     leaves = get_leaves()
 
-    st.subheader("📌 Related Nodes for ID: {}".format(node))
+    st.subheader(f"📌 Related Nodes for ID: {node}")
+    st.markdown(f"**🔗 View on CAPEC:** [CAPEC-{node}](https://capec.mitre.org/data/definitions/{node}.html)")
     st.write("**Parents:**", parents)
     st.write("**Grandparents:**", grandparents)
     st.write("**Children:**", children)
@@ -101,14 +102,24 @@ if st.button("🔍 Analyze Node"):
     sub_nodes = set([node] + parents + grandparents + children + grandchildren + peers + can_precede + can_follow + ancestors + descendants)
     subG = G_simple.subgraph(sub_nodes)
     pos = nx.spring_layout(subG, seed=42)
-    plt.figure(figsize=(12, 9))
-    nx.draw(subG, pos, with_labels=True, node_color='lightblue', node_size=700, font_size=10)
+    plt.figure(figsize=(14, 10))
+
+    edge_colors = []
+    for u, v in subG.edges():
+        relation = subG[u][v]['relation']
+        if relation == 'childof':
+            edge_colors.append('blue')
+        elif relation == 'peerof':
+            edge_colors.append('green')
+        elif relation == 'canprecede':
+            edge_colors.append('red')
+        else:
+            edge_colors.append('gray')
+
+    nx.draw(subG, pos, with_labels=True, node_color='lightblue', node_size=1200, font_size=14, edge_color=edge_colors)
     edge_labels = nx.get_edge_attributes(subG, 'relation')
-    nx.draw_networkx_edge_labels(subG, pos, edge_labels=edge_labels, font_size=8)
+    nx.draw_networkx_edge_labels(subG, pos, edge_labels=edge_labels, font_size=12)
     st.pyplot(plt)
 
 st.markdown("---")
-st.write("This tool provides deep graph analysis and visual context for CAPEC nodes based on their relationships.")
-st.markdown("---")
-st.markdown("**👩‍💻 Created by:** Bama, Sophie, and Sangeetha")
-
+st.caption("**👩‍💻Developed by Bama, Sophie, and Sangeetha")
